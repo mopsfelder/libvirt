@@ -19,16 +19,16 @@ dnl
 
 AC_DEFUN([LIBVIRT_CHECK_EXTERNAL_PROGRAMS], [
   dnl Do we have rpcgen?
-  AC_PATH_PROGS([RPCGEN], [rpcgen portable-rpcgen], [no])
+  AC_PATH_PROGS([RPCGEN], [rpcgen portable-rpcgen], [no], [$LIBVIRT_SBIN_PATH])
   AM_CONDITIONAL([HAVE_RPCGEN], [test "x$ac_cv_path_RPCGEN" != "xno"])
 
   dnl Miscellaneous external programs.
-  AC_PATH_PROG([XMLLINT], [xmllint], [])
+  AC_PATH_PROG([XMLLINT], [xmllint], [], [$LIBVIRT_SBIN_PATH])
   if test -z "$XMLLINT"
   then
     AC_MSG_ERROR("xmllint is required to build libvirt")
   fi
-  AC_PATH_PROG([XSLTPROC], [xsltproc], [])
+  AC_PATH_PROG([XSLTPROC], [xsltproc], [], [$LIBVIRT_SBIN_PATH])
   if test -z "$XSLTPROC"
   then
     AC_MSG_ERROR("xsltproc is required to build libvirt")
@@ -36,17 +36,18 @@ AC_DEFUN([LIBVIRT_CHECK_EXTERNAL_PROGRAMS], [
 
   dnl Drop the rst2html (aka HTML4) variants once we
   dnl stop supporting Ubuntu 16.04 (Xenial)
-  AC_PATH_PROGS([RST2HTML], [rst2html5 rst2html5.py rst2html5-3 rst2html rst2html.py rst2html-3], [])
+  AC_PATH_PROGS([RST2HTML], [rst2html5 rst2html5.py rst2html5-3 rst2html rst2html.py rst2html-3],
+                [], [$LIBVIRT_SBIN_PATH])
   if test -z "$RST2HTML"
   then
     AC_MSG_ERROR("rst2html5/rst2html is required to build libvirt")
   fi
-  AC_PATH_PROGS([RST2MAN], [rst2man rst2man.py rst2man-3], [])
+  AC_PATH_PROGS([RST2MAN], [rst2man rst2man.py rst2man-3], [], [$LIBVIRT_SBIN_PATH])
   if test -z "$RST2MAN"
   then
     AC_MSG_ERROR("rst2man is required to build libvirt")
   fi
-  AC_PATH_PROG([AUGPARSE], [augparse], [/usr/bin/augparse])
+  AC_PATH_PROG([AUGPARSE], [augparse], [/usr/bin/augparse], [$LIBVIRT_SBIN_PATH])
   AC_PROG_MKDIR_P
   AC_PROG_LN_S
 
